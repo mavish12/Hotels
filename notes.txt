@@ -331,3 +331,20 @@ res.status(500).json({ error: 'Internal server error' });        |
 }                                                                |
 });                                                              |
 ------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+. Host MongoDB database
+
+. Now we are running locally MongoDB database.
+. All data operation is performed in a local database, so let's host our
+database server and make our DB online presence
+
+. MongoDB Atlas provides a Free cluster for users where you can host your
+database for free.
+. MongoDB Atlas offers a cloud-based platform for hosting MongoDB
+databases
+. The free tier allows developers to explore and experiment with the database
+without incurring any costs.
+. https://www.mongodb.com/atlas/database
+
+· Create an account for free (I already have an account )
+. Show Step-by-step Process to host MongoDB Atlas

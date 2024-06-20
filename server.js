@@ -29,14 +29,18 @@ console.log(_.uniq(items)) // remove duplicate
 console.log(_.isString(0))
 */
 
-//Express installation and Uusage...just copy it from the npm website
+//Express installation and usage...just copy it from the npm website
 const express = require('express')
 const app = express()
 const db = require('./db')
+require('dotenv').config();  //To know that the mongodb server is in dotenv
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
+const PORT = process.env.PORT || 3000
 
-const MenuItem = require('./models/MenuItem')
+
+// const MenuItem = require('./models/MenuItem')
 
 app.get('/', function (req, res) {
     res.send('This is Hotel Taj!! You are welcomed')
@@ -51,7 +55,7 @@ app.use('/person',personRoutes)
 app.use('/menu',menuItemsRoutes)
 
 
- //Arrow fn to know that server is live
-app.listen(3000 , ()=>{
+//Arrow fn to know that server is live
+app.listen(PORT , ()=>{
     console.log("Server is up and running on port 3000")
 })
