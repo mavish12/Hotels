@@ -1,3 +1,35 @@
+/*
+// Use of libraried also see from the documentations there are alot more 
+
+var os = require('os')
+var fs = require('fs')
+// console.log(os)
+var user = os.userInfo()
+console.log(user.username)
+fs.appendFile("greeting.txt", "Hii" + user.username + "!\n" , () => {
+    console.log("It is a success")
+})
+*/
+/*
+//Export of data from another file
+
+const notes = require("./notes")
+var ageThere = notes.age
+var result = notes.addNumber(ageThere, 10)
+console.log(ageThere)
+console.log(result)
+*/
+/*
+//npm Lodash use.....read more in docmentation for other methods too 
+
+var _ = require("lodash")
+var items = [1,2,1,2,3,"oooo","pop",3]
+console.log(_.uniq(items)) // remove duplicate
+
+console.log(_.isString(0))
+*/
+
+-------------------------------------------------------------------------------------
 1. Import Mongoose and Define the MongoDB URL: In the db. js file, you
 first import the Mongoose library and define the URL to your MongoDB
 database. This URL typically follows the format

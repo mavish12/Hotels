@@ -216,4 +216,69 @@ app.use(passport.initialize());                             |
 . Passport Local Strategy
 
 
+. The Passport Local Strategy is a part of the Passport.js authentication
+middleware for Node.js. It's specifically designed for handling username and
+password-based authentication.
+. The Passport Local Strategy, by default, expects to extract the username and
+password from the request body. It is a common practice for username and
+password-based authentication systems to send the credentials as part of the
+request body, especially in login forms.
 
+. Configure the Local Strategy
+
+. Define and configure the Local Strategy using passport-local.
+. You need to provide a verification function that checks the provided username
+and password.
+--------------------------------------------
+passport.use(new LocalStrategy(            |
+async (username, password, done) => {      | 
+// Your authentication logic here          |
+} I                                        |
+));                                        |
+--------------------------------------------    
+. In the Local Strategy's verification function, you typically query your database to
+find the user with the provided username. You then compare the provided
+password with the stored password.
+. In the context of LocalStrategy, Passport.js expects the verification function
+to have the following signature:
+function (username, password, done)
+
+---------------------------------------------------------------------------
+passport.use(new LocalStrategy(async (username, password, done) => {      |
+try {                                                                     |
+console.log('Received credentials:', username, password);                 |
+const user = await Person.findOne({ username });                          |
+if (!user)                                                                |
+return done(null, false, { message: 'Incorrect username.' });             |
+const isPasswordMatch = (user.password === password ? true : false);      |
+if (isPasswordMatch)                                                      |
+return done(null, user);                                                  |
+else                                                                      |
+return done(null, false, { message: 'Incorrect password.' })              |
+} catch (error) {                                                         |
+return done(error);                                                       |
+}                                                                         |
+}));                                                                      |
+---------------------------------------------------------------------------
+. In the context of Passport.js, done is a callback function that is provided by
+Passport to signal the completion of an authentication attempt. It is used to
+indicate whether the authentication was successful, and if so, to provide
+information about the authenticated user.
+. The done function takes three parameters: done(error, user, info).
+. If the authentication is successful, you call done(null, user) where user is
+an object representing the authenticated user.
+. If the authentication fails, you call done(null, false, { message: 'some
+message' }). The second parameter (false) indicates that authentication
+failed, and the third parameter is an optional info object that can be used to
+provide additional details about the failure.
+----------------------------------------------------------------------------------------
+. Store Plain Password
+
+. Storing plain passwords is not a secure practice. To enhance security, it's highly
+recommended to hash and salt passwords before storing them.
+
+. You can use the bcrypt library for password hashing in your Node.js
+application.
+---------------------
+npm install bcrypt  |
+---------------------
