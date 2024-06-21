@@ -9,10 +9,13 @@ passport.use(
         // console.log("Recieved credentials:", USERNAME, password);
         const user = await Person.findOne({ username: USERNAME });
         if (!user) return done(null, false, { message: "Incorrect username." });
-        const isPasswordMatch = user.password === password ? true : false;
+        // const isPasswordMatch = user.password === password ? true : false;
+        //Instead of this after using hashedPassword we'll use the bottom lime to compare the password with the userentered and the database contained password
+        const isPasswordMatch =await user.comparePassword(password);
+
         if (isPasswordMatch) {
           return done(null, user);
-        } else {
+        } else {    
           return done(null, false, { message: "Incorrect password." });
         }
       } catch (error) {

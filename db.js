@@ -4,8 +4,8 @@ require('dotenv').config();  //To know that the mongodb server is in dotenv
 
 //Define the mongodb connection URL
 // const mongoURL = 'mongodb://localhost:27017/hotels' //We can replace "mydatabase" with our database name like here "hotels" this is local DB connection this is for initial
-//const mongoURL = process.env.MONGODB_URL_LOCAL  // This is after .env file 
-const mongoURL =process.env.MONGODB_URL   //This is onlinr Atlas DB connection
+const mongoURL = process.env.MONGODB_URL_LOCAL  // This is after .env file 
+// const mongoURL =process.env.MONGODB_URL   //This is onlinr Atlas DB connection
 //Establish the Mongo DB connection
 mongoose.connect(mongoURL, {
     useNewUrlParser: true,
