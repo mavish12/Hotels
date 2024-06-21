@@ -1,0 +1,219 @@
+. Middleware
+
+Imagine you're at a restaurant, and you've placed an order for your favorite dish. Now,
+before that dish reaches your table, it goes through several stages in the kitchen. Each
+stage involves different tasks, like chopping vegetables, cooking, and adding spices.
+Middleware is a bit like these stages in the kitchen-it's something that happens in
+between your request and the final response in a web application.
+Now, let's apply this idea to a web application, like the "Node Hotel" system:
+1. Request Phase:
+o You (the client) make a request to the Node Hotel system. It could be
+asking for the menu, submitting a reservation, or anything else.
+2. Middleware Phase:
+o Middleware is like the behind-the-scenes process in the kitchen. It's a
+series of functions that your request goes through before it reaches the
+final destination.
+3. Final Response Phase:
+o After passing through the middleware, your request gets processed, and
+the system sends back a response. It could be the menu you requested or
+confirmation of your reservation.
+-------------------------------------------------- 
+Move on to the next phase                        |
+// Middleware Function                           |
+const logRequest = (req, res, next) => {         |
+console.log( [${new Date().toLocaleString()}]    |
+Request made to: ${req.originalUrl} );           |
+next();                                          |
+};                                               |
+// Using Middleware in Express                   |
+const express = require('express');              |
+const app = express();                           |
+// Apply Middleware to all Routes                |
+app.use(logRequest);                             |
+// Define Routes                                 |
+app.get('/', (req, res) => {                     |
+res.send('Welcome to Node Hotel!');              |
+});                                              |
+app.get('/menu', (req, res) => {                 |
+res.send(Our delicious menu is coming right up!')|
+});                                              |
+// Start the Server                              |
+const PORT = 3000;                               |
+app.listen(PORT,() => {                          |
+console.log('Server is running on                |
+ http://localhost:${PORT});                      |
+});                                              |
+--------------------------------------------------
+
+In this example, logRequest is our middleware. It logs the time and the requested
+URL for every incoming request. The app. use(logRequest) line tells Express to
+use this middleware for all routes.
+
+So, when you access any route (like / or /menu), the middleware runs first, logs the
+request, and then the route-specific code executes.
+In summary, middleware is like a series of tasks that happen behind the scenes in a
+web application. It's a way to add extra functionality to your application's
+request-response cycle, such as logging, authentication checks, or modifying
+request data, before it reaches its final destination.
+
+Why do we use'the next() function in the middleware function
+
+In Express.js, the next () function is a callback that signals to Express that the current
+middleware function has completed its processing and that it's time to move on to the
+next middleware function or route handler in the chain.
+
+---------------------------------------------------------------------------------------
+. Authentication & Authorization
+
+Like Aim: 700
+Comment Aim: 400
+Please Like this Video Before watching
+
+Tag me on Linkedin for Notes - show Demo How you can post
+
+Imagine you're the manager of the "Node Hotel" application, and you want to ensure
+that only authorized staff members can access certain features. This is where
+authentication comes in.
+
+1. Verifying Identity (Authentication):
+. Scenario: When a staff member, let's say a chef, wants to log in to the Node
+Hotel system, they need to prove that they are indeed the chef they claim to be.
+. In Practice: In Node.js, authentication involves checking the chef's credentials,
+like a username and password, to make sure they match what's on record. It's
+like asking the chef to enter a secret code (password) and confirming that it's
+correct.
+
+2. Access Control (Authorization):
+
+Now, let's add a layer of authorization based on the roles of the staff members.
+
+. Scenario: Once the chef has proven their identity, you, as the manager, want to
+control what they can and cannot do. For instance, chefs should be able to
+update the menu items, but maybe not manage staff salaries.
+· In Practice: In Node.js, after authenticating the chef, you'll use authorization to
+decide what parts of the system they have access to. It's like giving the chef a
+key card (authorization) that lets them into the kitchen but not into the manager's
+office.
+-------------------------------------------------------------------------------------
+Implementation in Node.js:
+
+1. Authentication Middleware:
+o In your Node.js application, you might use middleware like Passport to
+handle the authentication process.
+o Passport helps verify the identity of the chef based on their provided
+credentials.
+2. User Roles and Permissions:
+o You'll define roles for staff members (e.g., chef, waiter, manager).
+o Authorization middleware will check the role of the authenticated user and
+grant access accordingly.
+
+3. Secure Endpoints:
+o You'll protect certain routes (like updating menu items) with authentication
+checks.
+o Only authenticated and authorized users (like chefs) will be allowed to
+access these routes.
+
+In the Hotel Context:
+
+. Authentication: When Chef John logs in, the system checks if the provided
+username and password match what's on record for Chef John.
+. Authorization: Once authenticated, Chef John is authorized to modify menu
+items but may not have permission to change other critical settings.
+
+In simple terms, authentication in Node.js for your hotel application ensures that each
+staff member is who they say they are, and authorization determines what they're
+allowed to do once their identity is confirmed.
+
+It's like having a secure system where only the right people get access to the right
+areas of your hotel management application.
+
+I
+
+In general, authentication is applied before authorization in the security process.
+Here's the typical sequence:
+1. Authentication:
+o The first step is to verify the identity of the user or system entity attempting
+to access a resource or perform an action. This involves checking
+credentials such as usernames and passwords or using other
+authentication methods like tokens, API keys, or certificates.
+2. Authorization:
+o Once the identity is verified through authentication, the system moves on
+to authorization. Authorization determines what actions or resources the
+authenticated user or entity is allowed to access based on their
+permissions, roles, or other access control mechanisms.
+
+The reason for this order is straightforward: before you can determine what someone
+is allowed to do (authorization), you need to know who they are (authentication).
+Authentication establishes the identity, and authorization defines the permissions
+associated with that identity.
+
+In the context of web applications, middleware for authentication is typically applied
+first in the request-response cycle to verify the user's identity. If authentication is
+successful, the request proceeds to authorization middleware to determine what the
+authenticated user is allowed to do.
+
+It's important to note that while authentication and authorization are often discussed as
+distinct steps, they work together as essential components of a security strategy to
+control access to resources and protect agalnst unauthorized actions.
+
+. Now we will implement Authentication as a middleware Function. So that,
+Routes will be authenticated before reaching out to the server.
+. Implementing authentication as a middleware function is a common and effective
+approach.
+-------------------------------------------------------------------------------------
+· Passport.js
+
+Passport.js is a popular authentication middleware for Node.js. Authentication is the
+process of verifying the identity of a user, typically through a username and password,
+before granting access to certain resources or features on a website or application.
+
+Think of Passport.js as a helpful tool that makes it easier for developers to handle user
+authentication in their Node.js applications. It simplifies the process of authenticating
+users by providing a set of pre-built strategies for different authentication methods,
+such as username and password, social media logins (like Facebook or Google), and
+more.
+
+Here's a breakdown of some key concepts in Passport.js:
+
+1. Middleware: In the context of web development, middleware is software that sits
+between the application and the server. Passport.js acts as middleware,
+intercepting requests and adding authentication-related functionality to them.
+
+2. Strategy: Passport.js uses the concept of strategies for handling different
+authentication methods. A strategy is a way of authenticating users. Passport.js
+comes with various built-in strategies, and you can also create custom strategies
+to support specific authentication providers.
+
+3. Serialize and Deserialize: Passport.js provides methods for serializing and
+deserializing user data. Serialization is the process of converting user data into a
+format that can be stored, usually as a unique identifier. Deserialization is the
+reverse process of converting that unique identifier back into user data. These
+process are essential for managing our process.
+
+-------------------------------------------------------------------------------------
+. Install Passport
+
+To use Passport.js in a Node.js application, you need to install the passport package
+along with the authentication strategies you intend to use.
+For this course, we are using Local strategies authentication (username and
+password).
+
+you would typically install passport-local
+
+npm install passport passport-local
+
+Once you've installed these packages, you can set up and configure Passport.js in
+your application.
+-------------------------------------------------------------
+const express = require('express');                         | 
+const passport = require('passport');                       |
+const LocalStrategy = require('passport-local').Strategy;   |
+const app = express();                                      |
+// Initialize Passport                                      |
+app.use(passport.initialize());                             |
+-------------------------------------------------------------
+
+. Passport Local Strategy
+
+
+

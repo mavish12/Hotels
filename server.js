@@ -39,9 +39,13 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
 const PORT = process.env.PORT || 3000
 
-
-// const MenuItem = require('./models/MenuItem')
-
+//Middleware Function //This is implemented after all of things done and hosted too
+const logRequest = (req,res,next)=>{
+    console.log(`[${new Date().toLocaleString()}] Request made to: ${req.originalUrl}`)
+    next(); //Move on to the next phase
+}
+//Here as we included the logRequest we'll get the time and path when it is called
+app.use(logRequest);
 app.get('/', function (req, res) {
     res.send('This is Hotel Taj!! You are welcomed')
   })

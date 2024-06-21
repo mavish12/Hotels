@@ -348,3 +348,52 @@ without incurring any costs.
 
 · Create an account for free (I already have an account )
 . Show Step-by-step Process to host MongoDB Atlas
+-------------------------------------------------------------------------------------
+. Dotenv
+
+. The dotenv module in Node.js is used to manage configuration variables
+and sensitive information in your applications.
+· It's particularly useful for keeping sensitive data like API keys, database
+connection strings, and other environment-specific configurations separate
+from your code. T
+npm install dotenv
+. Create a . env File
+. This is where you'll store your environment-specific configuration variables.
+. format VAR_NAME=value.
+PORT=3000
+API_KEY=your-api-key
+DB_CONNECTION_STRING=your-db-connection-string
+
+· In your server file (usually the main entry point of your application), require
+and configure the dotenv module.
+require('dotenv').config();
+
+. Remember to keep your . env file secure and never commit it to a public
+version control system like Git, as it may contain sensitive information.
+Typically, you should include the . env file in your project's .gitignore file
+to prevent accidental commits.
+
+------------------------------------------------------------------------------------
+. Test MongoDB Cluster Postman
+
+. Now we can test the MongoDB Cluster and check whether our data is
+present or not in the online DB
+------------------------------------------------------------------------------------
+. Host NodeJS Server
+
+. Now we are going to host our server so that our Application or Endpoints is
+accessible to all the user over the Internet.
+. We are using localhost and our endpoints are only accessible within our
+computer
+. We have to make it publicly available, so there are lots of company who
+helps us to make our application'run 24*7
+. Like, AWS, Google Cloud, etc. but these charge too much amount for our
+application
+· So we are going to use some free services to host our nodeJS application,
+which lots of company provides for developer purpose.
+· Like, Heroku, Netlify, Render, etc.
+
+-------------------------------------------------------------------------------------
+
+
+
