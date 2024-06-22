@@ -1,0 +1,95 @@
+As we know tokens are generic authentication credentials or authorization tokens used
+to authenticate users or authorize access to resources in web applications.
+
+Tokens refer to a broad category of authentication credentials, whereas JWT is a
+specific format or implementation of tokens.
+
+JWT ( JSON Web Token )
+. Definition: JWT is a specific type of token format defined by the JSON Web
+Token standard (RFC 7519). It is a compact and self-contained means of
+transmitting information between parties as a JSON object.
+. Structure: JWTs consist of three parts: header, payload, and signature. They
+are typically encoded and signed using cryptographic algorithms.
+. Usage: JWTs are commonly used for authentication and authorization in web
+applications and APIs. They can store user claims, such as user ID, roles,
+permissions, and custom data, in a secure and portable format.
+· Statelessness: JWTs are stateless, meaning the server does not need to store
+session information. This makes them suitable for distributed architectures and
+scalable systems.
+-----------------------------------------------------------------------------------
+JWT Structure
+
+A JWT is composed of three sections separated by dots (.), following the format
+header.payload.signature.
+
+1. Header: Contains metadata about the type of token and the cryptographic
+algorithms used to secure it. It typically consists of two parts:
+o Typ (Type): Specifies the type of token, usually set to "JWT".
+o Alg (Algorithm): Indicates the cryptographic algorithm used to sign the
+token, such as HMAC SHA256 or RSA.
+2. Payload: Contains the claims or statements about the subject (user) and any
+additional data. It consists of a set of claims that represent assertions about the
+user, such as their identity, roles, or permissions. Claims are categorized into
+three types:
+o Reserved Claims: Predefined claims standardized by the JWT
+specification, such as iss (issuer), sub (subject), aud (audience), exp
+(expiration time), and iat (issued at).
+o Public Claims: Custom claims defined by the application developer to
+convey information about the user.
+o Private Claims: Custom claims agreed upon by parties that exchange
+JWTs, not registered or standardized.
+3. Signature: Verifies the integrity of the token and ensures that it has not been
+tampered with during transmission. It's created by taking the encoded header,
+encoded payload, a secret (for HMAC algorithms), and applying the specified
+algorithm to generate the signature.
+--------------------------------------------------------------------------------------
+JWT Functions:
+
+Certainly! In the context of JSON Web Tokens (JWT), jwt.sign() and
+jwt.verify() are two crucial functions provided by the jsonwebtoken library in
+Node.js. Here's what they do
+
+data.
+
+jwt.sign():
+
+. This function is used to generate a new JWT token based on the provided
+payload and options.
+. It takes three parameters:
+o payload: This is the data you want to include in the token. It can be any
+JSON object containing user information, metadata, or any other relevant
+I
+o secretOrPrivateKey: This is the secret key used to sign the token. It
+can be a string or a buffer containing a secret cryptographic key.
+
+o options (optional): These are additional options that control the behavior
+of the token generation process, such as expiration time (expiresIn),
+algorithm (algorithm), and more.
+--------------------------------------------------------------------
+const jwt =require('jsonwebtoken');                                |
+// Payload containing user information                             |
+const payload = { userId: '123456', username: 'exampleuser' };     |
+// Secret key for signing the token                                |
+const secretKey = 'your_secret_key';                               |
+// Generate a new JWT token                                        |
+const token = iwt. sign(payload, secretkey, { expiresIn: '1h' }):  |
+--------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+Our Hotel App Flow
+
+For the First Time, User is completely new to the site
+
+1. Signup Route (/signup): This route will handle user registration and issue a
+JWT token upon successful registration.
+2. Login Route (/login): This route will handle user login and issue a new JWT
+token upon successful authentication.
+3. Protected Routes: These routes will be accessed only by providing a valid JWT
+token.
+--------------------------------------------------------------------------------------
+Install JWT
+
+First, you'll need to install the necessary packages for working with JWT. In Node.js,
+you can use packages like jsonwebtoken to generate and verify JWTs.
+-----------------------------
+npm install jsonwebtoken    |
+-----------------------------
