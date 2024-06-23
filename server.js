@@ -22,7 +22,7 @@ app.use(logRequest);
 app.use(passport.initialize());
 
 const localAuthMiddleware = passport.authenticate('local',{session:false})
-app.get("/", localAuthMiddleware,function (req, res) {
+app.get("/", function (req, res) {
   res.send("This is Hotel Taj!! You are welcomed");
 });
 
@@ -31,7 +31,7 @@ const personRoutes = require("./routes/personRoutes");
 const menuItemsRoutes = require("./routes/menuItemsRoute");
 // const Person = require("./models/person");
 //Use the routers
-app.use("/person",localAuthMiddleware, personRoutes);
+app.use("/person", personRoutes);
 app.use("/menu", menuItemsRoutes);
 
 //Arrow fn to know that server is live

@@ -93,3 +93,98 @@ you can use packages like jsonwebtoken to generate and verify JWTs.
 -----------------------------
 npm install jsonwebtoken    |
 -----------------------------
+jwtAuthMiddleware:-
+
+Create a JWT Auth Middleware function, which is responsible for authentication via
+Tokens
+----------------------------------------------------------------------
+// jwtAuthMiddleware.js                                              |
+const jwt = require('jsonwebtoken');                                 |
+const jwtAuthMiddleware = (req, res, next) => {                      |
+// Extract the JWT token from the request header                     |
+const token = req.headers.authorization.split(' ')[1];               |
+if (!token) return res.status(401).json({ error: 'Unauthorized' });  |
+try {                                                                |
+// Verify the JWT token                                              |
+const decoded = jwt.verify(token, process.env.JWT_SECRET);           |
+// Attach user information to the request object                     |
+req.user = decoded;                                                  |
+next();                                                              |
+} catch (err) {                                                      |
+console.error(err);                                                  |
+res.status(401).json({ error: 'Invalid token' });                    |
+}                                                                    |
+module.exports = jwtAuthMiddleware;                                  |
+}                                                                    |
+----------------------------------------------------------------------
+Profile Route
+---------------------------------------------------------------------
+router.get('/profile', jwtAuthMiddleware, async (req, res) => {     |
+try {                                                               |
+// Extract user id from decoded token                               | 
+const userId = req.user.id;                                         |
+// Find the user by id                                              |
+const user = await Person.findById(userId);                         |
+// If user does not exist, return error                             |
+if (!user) {                                                        |
+return res.status(404).json({ error: 'User not found' });           |
+}                                                                   |
+// Send user profile as JSON response                               |
+res.json(user);                                                     |
+} catch (err) {                                                     |
+console.error(err);                                                 |
+res.status(500).json({ error: 'Internal Server Error' });           |
+}                                                                   |
+})                                                                  |
+---------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+Important Points:
+
+When the server receives this request, it parses the Authorization header to
+extract the JWT token.
+----------------------------------------------------------------------- 
+const authorizationHeader = 'Bearer                                   |
+eyJhbGci0iJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMØNTY3ODkwIiwibmF  |
+tZSI6IkpvaG4gRG91IiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJ  |
+f36P0k6yJV_adQssw5c';                                                 |
+const token = authorizationHeader.split(' ')[1];                      |
+console.log(token); // Output:                                        |
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY30DkwIiwibmF  |
+tZSI6IkpvaG4gRG91IiwiaWF0IjoxNTE2MjM5MDIyfQ.Sf1KxwRJSMeKKF2QT4fwpMeJ  |
+f36P0k6yJV_adQssw5c                                                   |
+-----------------------------------------------------------------------
+The split(' ') method separates the header value into an array of substrings
+using the space ('') character as the delimiter. The [1] index accesses the second
+element of this array, which is the JWT token.
+
+-------------------------------------------------------------------------------------
+We can Add one more line of check in the jwtAuthMiddleware
+--------------------------------------------------------------------------
+const authHeader = req.headers.authorization;                            |
+if (!authHeader) return res.status(401).json({ error: 'Token required'   |
+});                                                                      |
+--------------------------------------------------------------------------
+Expire Time-based Token :-
+--------------------------------------------------------------------------
+// Function to generate JWT token                                        |
+v const generateToken = (userData) => {                                  |
+// Generate a new JWT token using user data                              |
+return jwt.sign({userData}, process.env.JWT_SECRET, {expiresIn: 30});    |
+module.exports = { jwtAuthMiddleware, generateToken };                   |
+}                                                                        |
+--------------------------------------------------------------------------
+-------------------------------------------------------------------
+//Profile route to fetch just by token and id                     |
+router.get('/profile', jwtAuthMiddleware, async(req,res)=>{       |
+    try{                                                          |
+        const userData = req.user                                 | 
+        console.log("User Data: ",userData)                       |
+        const userId = userData.id                                |
+        const user = await Person.findById(userId)                |
+        res.status(200).json(user);                               |
+    }catch(err){                                                  |            
+        console.error(err);                                       |
+        res.status(500).json({ error: "Internal server error" }); |
+    }                                                             |
+})                                                                |
+-------------------------------------------------------------------
